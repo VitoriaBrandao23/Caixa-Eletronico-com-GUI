@@ -1,0 +1,23 @@
+class Caixa_Banco():
+    def __init__(self, cliente, senha, saldo):    #talvez cliente e senha fiquem fora para serem usados na gui
+        self.cliente = cliente
+        self.senha = senha
+        self.saldo = saldo
+    
+    #Funções do caixa
+    def Ver_Saldo(self):
+        print(self.saldo)
+    def Depositar(self, valor):
+        self.saldo = self.saldo + valor
+        print('Saldo atual:', self.saldo)
+    def Sacar(self, valor):
+        if self.saldo < valor:
+            print('Saldo insuficiente\nSaldo atual:', self.saldo)
+        else:
+            self.saldo = self.saldo - valor
+            print('Saque realizado com sucesso!\nSaldo atual:', self.saldo) 
+
+c1 = Caixa_Banco('José', 'PROctziu', 263)
+c1.Ver_Saldo()
+c1.Depositar(50)
+c1.Sacar(125)
