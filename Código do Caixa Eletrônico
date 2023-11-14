@@ -1,0 +1,68 @@
+#EM DESENVOLVIMENTO
+from tkinter import *
+
+class Caixa_Banco():
+    def __init__(self, cliente, senha, saldo):    #talvez cliente e senha fiquem fora para serem usados na gui
+        self.cliente = cliente
+        self.senha = senha
+        self.saldo = saldo
+    
+    #Funções do caixa
+    def Ver_Saldo(self):
+        print(self.saldo)
+    def Depositar(self, valor):
+        self.saldo = self.saldo + valor
+        print('Saldo atual:', self.saldo)
+    def Sacar(self, valor):
+        if self.saldo < valor:
+            print('Saldo insuficiente\nSaldo atual:', self.saldo)
+        else:
+            self.saldo = self.saldo - valor
+            print('Saque realizado com sucesso!\nSaldo atual:', self.saldo) 
+
+tela = Tk()                       #criando 1° tela
+tela.geometry('300x200')
+
+fonte_padrao = ('Arial', '10')
+
+tela.title('Caixa Eletrônico')
+tela_inicial = Label(tela, text = 'Banco TEX')
+tela_inicial['font'] = ('Arial', '12', 'bold', 'italic')
+tela_inicial.grid(row = 0, column = 1)
+
+recepção = Label(tela, text = 'Olá, bem vindo ao seu banco!\nDigite seu nome e senha eletrônica')
+recepção['font'] = fonte_padrao
+recepção.grid(row = 2, column = 1)
+
+caixa_nome = Label(tela, text = 'Nome', font = fonte_padrao)
+caixa_nome.grid(row = 3, column = 0)
+
+nome = Entry(tela)
+nome['width'] = 30
+nome.grid(row = 3, column = 1) 
+
+caixa_senha = Label(tela, text = 'Senha', font = fonte_padrao)
+caixa_senha.grid(row = 4, column = 0)
+
+senha = Entry(tela, text = 'Senha')
+senha['width'] = 15
+senha['font'] = fonte_padrao
+senha['show'] = '*'
+senha.grid(row = 4, column = 1)
+
+#função
+def verificar_usuario():
+    id = self.cliente
+    senha = self.senha
+    if id == self.cliente and senha == self.senha:
+        mensagem['text'] = 'Usuário verificado!'
+        #ir para janela 2
+#Botão
+login = Button(tela)
+login['text'] = 'Entrar'
+login['font'] = fonte_padrao
+login['width'] = 10
+login['command'] = verificar_usuario
+login.grid(row = 6, column = 1)
+
+tela.mainloop()
