@@ -1,12 +1,14 @@
 #EM DESENVOLVIMENTO
 from tkinter import *
+import time
+
+lista_id = ['José Ribeira']       #adicionar mais usuários futuramente
+lista_senha = ['PROC89ziu']
 
 class Caixa_Banco():
-    def __init__(self, cliente, senha, saldo):    #talvez cliente e senha fiquem fora para serem usados na gui
-        self.cliente = cliente
-        self.senha = senha
+    def __init__(self, saldo):    #talvez cliente e senha fiquem fora para serem usados na gui
         self.saldo = saldo
-    
+   
     #Funções do caixa
     def Ver_Saldo(self):
         print(self.saldo)
@@ -18,7 +20,9 @@ class Caixa_Banco():
             print('Saldo insuficiente\nSaldo atual:', self.saldo)
         else:
             self.saldo = self.saldo - valor
-            print('Saque realizado com sucesso!\nSaldo atual:', self.saldo) 
+            print('Saque realizado com sucesso!\nSaldo atual:', self.saldo)
+
+c1 = Caixa_Banco(263)             #objeto
 
 tela = Tk()                       #criando 1° tela
 tela.geometry('300x200')
@@ -28,41 +32,124 @@ fonte_padrao = ('Arial', '10')
 tela.title('Caixa Eletrônico')
 tela_inicial = Label(tela, text = 'Banco TEX')
 tela_inicial['font'] = ('Arial', '12', 'bold', 'italic')
-tela_inicial.grid(row = 0, column = 1)
+tela_inicial.grid(row = 1, column = 1)
 
 recepção = Label(tela, text = 'Olá, bem vindo ao seu banco!\nDigite seu nome e senha eletrônica')
 recepção['font'] = fonte_padrao
-recepção.grid(row = 2, column = 1)
+recepção.grid(row = 3, column = 1)
 
-caixa_nome = Label(tela, text = 'Nome', font = fonte_padrao)
-caixa_nome.grid(row = 3, column = 0)
+nome = Label(tela, text = '  Nome', font = fonte_padrao)
+nome.grid(row = 4, column = 0)
 
-nome = Entry(tela)
-nome['width'] = 30
-nome.grid(row = 3, column = 1) 
+caixa_nome = Entry(tela)
+caixa_nome['width'] = 29
+caixa_nome.grid(row = 4, column = 1)
 
-caixa_senha = Label(tela, text = 'Senha', font = fonte_padrao)
-caixa_senha.grid(row = 4, column = 0)
+senha = Label(tela, text = '  Senha', font = fonte_padrao)
+senha.grid(row = 5, column = 0)
 
-senha = Entry(tela, text = 'Senha')
-senha['width'] = 15
-senha['font'] = fonte_padrao
-senha['show'] = '*'
-senha.grid(row = 4, column = 1)
+caixa_senha = Entry(tela, font = fonte_padrao)
+caixa_senha['width'] = 25
+caixa_senha['show'] = '*'
+caixa_senha.grid(row = 5, column = 1)
 
-#função
-def verificar_usuario():
-    id = self.cliente
-    senha = self.senha
-    if id == self.cliente and senha == self.senha:
-        mensagem['text'] = 'Usuário verificado!'
-        #ir para janela 2
+mensagem = Label(tela, text = '', font = fonte_padrao)
+mensagem.grid(row = 9, column = 1)
+#funções
+
+#Criando janela 2
+def Janela2():
+
+    tela.destroy()
+    time.sleep(0.3)
+
+    tela2 = Tk()
+    tela2.geometry('350x250')
+    tela2.title('Operações do Caixa')
+
+    texto = "\n  1.            Ver saldo\n\n  2.            Depositar\n\n3.              Sacar\n\n4.               Sair  "
+
+    acao1 = Label(tela2, text = texto, font = fonte_padrao)
+    acao1.grid(row = 1, column = 2)
+
+    orienta = Label(tela2, text = '   Digite o número para\n realizar a ação desejada:', font = fonte_padrao)
+    orienta.grid(row = 4, column = 1)
+
+    caixa_num = Entry(tela2)
+    caixa_num['width'] = 25
+    caixa_num.grid(row = 4, column = 2)
+
+    #função
+    def Saldo():
+
+        tela2.destroy()
+        time.sleep(0.3)
+
+        tela3 = Tk()
+        tela3.geometry('300x200')
+        tela3.title('Saldo Bancário')
+        
+        #Ver_saldo() #função POO do objeto
+    
+    def Deposito():
+
+        tela2.destroy()
+        time.sleep(0.3)
+
+        tela4 = Tk()
+        tela4.geometry('300x200')
+        tela4.title('Depositar')
+        
+        #perguntar valor para depósito, armazenar resposta em quantia
+        #Depositar(quantia)
+
+    def Saque():
+
+        tela2.destroy()
+        time.sleep(0.3)
+
+        tela5 = Tk()
+        tela5.geometry('300x200')
+        tela5.title('Sacar')
+
+        #perguntar valor para depósito, armazenar resposta em quantia
+        #Sacar(quantia)
+    
+    def Operacao():
+
+        str(caixa_num.get())
+
+        if caixa_num.get() == '1':
+            Saldo() 
+        if caixa_num.get() == '2':
+            Deposito() 
+        if caixa_num.get() == '3':
+            Saque()
+        if caixa_num.get() == '4':
+            time.sleep(0.2)
+            tela2.destroy()
+
+    next = Button(tela2)
+    next['text'] = 'Continuar'
+    next['font'] = fonte_padrao
+    next['width'] = 10
+    next['command'] = Operacao
+    next.grid(row = 6, column = 2)
+
+#Verifica usuário
+def Verificar_usuario():
+
+    if caixa_nome.get() in lista_id and caixa_senha.get() in lista_senha:
+        Janela2()
+    else:
+        mensagem['text'] = 'Usuário não identificado!'
+
 #Botão
 login = Button(tela)
 login['text'] = 'Entrar'
 login['font'] = fonte_padrao
 login['width'] = 10
-login['command'] = verificar_usuario
-login.grid(row = 6, column = 1)
+login['command'] = Verificar_usuario
+login.grid(row = 7, column = 1)
 
 tela.mainloop()
