@@ -2,8 +2,8 @@
 from tkinter import *
 import time
 
-lista_id = ['José Ribeira']       #adicionar mais usuários futuramente
-lista_senha = ['PROC89ziu']
+lista_id = ['José Ribeira', 'Davi']       #adicionar mais usuários futuramente
+lista_senha = ['PROC89ziu', '123456']
 
 class Caixa_Banco():
     def __init__(self, saldo):    #talvez cliente e senha fiquem fora para serem usados na gui
@@ -23,6 +23,8 @@ class Caixa_Banco():
             print('Saque realizado com sucesso!\nSaldo atual:', self.saldo)
 
 c1 = Caixa_Banco(263)             #objeto
+c1.Ver_Saldo()
+
 
 tela = Tk()                       #criando 1° tela
 tela.geometry('300x200')
@@ -38,14 +40,14 @@ recepção = Label(tela, text = 'Olá, bem vindo ao seu banco!\nDigite seu nome 
 recepção['font'] = fonte_padrao
 recepção.grid(row = 3, column = 1)
 
-nome = Label(tela, text = '  Nome', font = fonte_padrao)
+nome = Label(tela, text = '  Nome:', font = fonte_padrao)
 nome.grid(row = 4, column = 0)
 
 caixa_nome = Entry(tela)
 caixa_nome['width'] = 29
 caixa_nome.grid(row = 4, column = 1)
 
-senha = Label(tela, text = '  Senha', font = fonte_padrao)
+senha = Label(tela, text = '  Senha:', font = fonte_padrao)
 senha.grid(row = 5, column = 0)
 
 caixa_senha = Entry(tela, font = fonte_padrao)
@@ -64,20 +66,27 @@ def Janela2():
     time.sleep(0.3)
 
     tela2 = Tk()
-    tela2.geometry('350x250')
+    tela2.geometry('300x200')
     tela2.title('Operações do Caixa')
 
-    texto = "\n  1.            Ver saldo\n\n  2.            Depositar\n\n3.              Sacar\n\n4.               Sair  "
+    texto = "\n  1 = Ver saldo\n\n  2 = Depositar\n"
+    texto2 = "\n  3 = Sacar\n\n4 = Sair\n"
 
     acao1 = Label(tela2, text = texto, font = fonte_padrao)
-    acao1.grid(row = 1, column = 2)
+    acao1.grid(row = 1, column = 0)
 
-    orienta = Label(tela2, text = '   Digite o número para\n realizar a ação desejada:', font = fonte_padrao)
+    acao2 = Label(tela2, text = texto2, font = fonte_padrao)
+    acao2.grid(row = 1, column = 1)
+
+    orienta = Label(tela2, text = '    Digite o número para', font = fonte_padrao)
+    orienta.grid(row = 4, column = 0)
+
+    orienta = Label(tela2, text = 'realizar a ação desejada : ', font = fonte_padrao)
     orienta.grid(row = 4, column = 1)
 
     caixa_num = Entry(tela2)
-    caixa_num['width'] = 25
-    caixa_num.grid(row = 4, column = 2)
+    caixa_num['width'] = 20
+    caixa_num.grid(row = 7, column = 0)
 
     #função
     def Saldo():
@@ -89,7 +98,10 @@ def Janela2():
         tela3.geometry('300x200')
         tela3.title('Saldo Bancário')
         
-        #Ver_saldo() #função POO do objeto
+        texto = f'Seu saldo atual é de:{c1.Ver_saldo}'
+
+        v1 = Label(tela3, text = texto, font = fonte_padrao)
+        v1.grid(row = 1, column = 1)
     
     def Deposito():
 
@@ -100,6 +112,19 @@ def Janela2():
         tela4.geometry('300x200')
         tela4.title('Depositar')
         
+        texto = '\n   Por favor, digite o valor'
+
+        d1 = Label(tela4, text = texto, font = fonte_padrao)
+        d1.grid(row = 1, column = 1)
+
+        texto2 = '   que deseja depositar :'
+
+        d2 = Label(tela4, text = texto2, font = fonte_padrao)
+        d2.grid(row = 2, column = 1)
+
+        dep_valor = Entry(tela4)
+        dep_valor['width'] = 20
+        dep_valor.grid(row = 2, column = 2)
         #perguntar valor para depósito, armazenar resposta em quantia
         #Depositar(quantia)
 
@@ -134,7 +159,7 @@ def Janela2():
     next['font'] = fonte_padrao
     next['width'] = 10
     next['command'] = Operacao
-    next.grid(row = 6, column = 2)
+    next.grid(row = 7, column = 1)
 
 #Verifica usuário
 def Verificar_usuario():
