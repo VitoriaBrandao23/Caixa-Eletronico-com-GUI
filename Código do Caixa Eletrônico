@@ -137,6 +137,20 @@ def Janela2():
         tela5.geometry('300x200')
         tela5.title('Sacar')
 
+        texto = '\n Por favor digite o valor'
+
+        s1 = Label(tela5, text = texto, font = fonte_padrao)
+        s1.grid(row = 1, column = 1)
+
+        texto2 = ' que deseja sacar :'
+
+        s2 = Label(tela5, text = texto2, font = fonte_padrao)
+        s2.grid(row = 2, column = 1)
+
+        saq_valor = Entry(tela5)
+        saq_valor['width'] = 20
+        saq_valor.grid(row = 2, column = 2)
+
         #perguntar valor para depósito, armazenar resposta em quantia
         #Sacar(quantia)
     
