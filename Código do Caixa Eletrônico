@@ -6,7 +6,7 @@ lista_id = ['José Ribeira', 'Davi']       #adicionar mais usuários futuramente
 lista_senha = ['PROC89ziu', '123456']
 
 class Caixa_Banco():
-    def __init__(self, saldo):    #talvez cliente e senha fiquem fora para serem usados na gui
+    def __init__(self, saldo):    
         self.saldo = saldo
    
     #Funções do caixa
@@ -22,9 +22,7 @@ class Caixa_Banco():
             self.saldo = self.saldo - valor
             print('Saque realizado com sucesso!\nSaldo atual:', self.saldo)
 
-c1 = Caixa_Banco(263)             #objeto
-c1.Ver_Saldo()
-
+c1 = Caixa_Banco(56)             #objeto
 
 tela = Tk()                       #criando 1° tela
 tela.geometry('300x200')
@@ -89,7 +87,7 @@ def Janela2():
     caixa_num.grid(row = 7, column = 0)
 
     #função
-    def Saldo():
+    def Saldo():                #janela 3
 
         tela2.destroy()
         time.sleep(0.3)
@@ -98,7 +96,7 @@ def Janela2():
         tela3.geometry('300x200')
         tela3.title('Saldo Bancário')
         
-        texto = f'Seu saldo atual é de:{c1.Ver_saldo}'
+        texto = f'Seu saldo atual é de R${c1.Ver_Saldo()}'  #None
 
         v1 = Label(tela3, text = texto, font = fonte_padrao)
         v1.grid(row = 1, column = 1)
@@ -125,8 +123,17 @@ def Janela2():
         dep_valor = Entry(tela4)
         dep_valor['width'] = 20
         dep_valor.grid(row = 2, column = 2)
+
         #perguntar valor para depósito, armazenar resposta em quantia
         #Depositar(quantia)
+        
+        #botão DEPOSITAR
+        depositado = Button(tela4)
+        depositado['text'] = 'Realizar Depósito'
+        depositado['font'] = fonte_padrao
+        depositado['width'] = 15
+        #depositado['command'] = Depositar
+        depositado.grid(row = 4, column = 2)
 
     def Saque():
 
@@ -153,6 +160,14 @@ def Janela2():
 
         #perguntar valor para depósito, armazenar resposta em quantia
         #Sacar(quantia)
+
+        #botão SACAR
+        sacando = Button(tela5)
+        sacando['text'] = 'Realizar Saque'
+        sacando['font'] = fonte_padrao
+        sacando['width'] = 15
+        #sacando['command'] = Sacar
+        sacando.grid(row = 3, column = 2)
     
     def Operacao():
 
