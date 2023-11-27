@@ -96,7 +96,7 @@ def Janela2():
         tela3.geometry('300x200')
         tela3.title('Saldo Bancário')
         
-        texto = f'Seu saldo atual é de R${c1.Ver_Saldo()}'  #None
+        texto = f'Seu saldo atual é de R${c1.Ver_Saldo()}' 
 
         v1 = Label(tela3, text = texto, font = fonte_padrao)
         v1.grid(row = 1, column = 1)
