@@ -13,14 +13,17 @@ class Caixa_Banco():
     def Ver_Saldo(self):
         return self.saldo
     def Depositar(self, valor):
-        self.saldo = self.saldo + valor
-        print('Saldo atual:', self.saldo)
+        self.saldo = self.saldo + int(valor)
+        resultado = 'Saldo atual:', self.saldo
+        return self.saldo, resultado
     def Sacar(self, valor):
         if self.saldo < valor:
-            print('Saldo insuficiente\nSaldo atual:', self.saldo)
+            resultado2 = 'Saldo insuficiente\nSaldo atual:', self.saldo
+            return resultado2
         else:
             self.saldo = self.saldo - valor
-            print('Saque realizado com sucesso!\nSaldo atual:', self.saldo)
+            resultado3 = 'Saque realizado com sucesso!\nSaldo atual:', self.saldo
+            return self.saldo, resultado3
 
 c1 = Caixa_Banco(56)             #objeto
 
@@ -96,12 +99,12 @@ def Janela2():
         tela3.geometry('300x200')
         tela3.title('Saldo Bancário')
         
-        texto = f'Seu saldo atual é de R${c1.Ver_Saldo()}' 
+        texto = f'Seu saldo atual é de R${c1.Ver_Saldo()}'  
 
         v1 = Label(tela3, text = texto, font = fonte_padrao)
         v1.grid(row = 1, column = 1)
     
-    def Deposito():
+    def Deposito():            #janela 4
 
         tela2.destroy()
         time.sleep(0.3)
@@ -126,13 +129,14 @@ def Janela2():
 
         #perguntar valor para depósito, armazenar resposta em quantia
         #Depositar(quantia)
+        quantia = int(dep_valor.get())   #ValueError: invalid literal for int() with base 10: ''
         
         #botão DEPOSITAR
         depositado = Button(tela4)
         depositado['text'] = 'Realizar Depósito'
         depositado['font'] = fonte_padrao
         depositado['width'] = 15
-        #depositado['command'] = Depositar
+        depositado['command'] = c1.Depositar(quantia)
         depositado.grid(row = 4, column = 2)
 
     def Saque():
@@ -160,18 +164,19 @@ def Janela2():
 
         #perguntar valor para depósito, armazenar resposta em quantia
         #Sacar(quantia)
+        quantia2 = int(saq_valor.get())  #ValueError: invalid literal for int() with base 10: ''
 
         #botão SACAR
         sacando = Button(tela5)
         sacando['text'] = 'Realizar Saque'
         sacando['font'] = fonte_padrao
         sacando['width'] = 15
-        #sacando['command'] = Sacar
+        sacando['command'] = c1.Sacar(quantia2)
         sacando.grid(row = 3, column = 2)
     
     def Operacao():
 
-        str(caixa_num.get())
+        caixa_num.get()
 
         if caixa_num.get() == '1':
             Saldo() 
