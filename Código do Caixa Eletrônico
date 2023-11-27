@@ -13,17 +13,14 @@ class Caixa_Banco():
     def Ver_Saldo(self):
         return self.saldo
     def Depositar(self, valor):
-        self.saldo = self.saldo + int(valor)
-        resultado = 'Saldo atual:', self.saldo
-        return self.saldo, resultado
+        self.saldo = self.saldo + valor
+        print('Saldo atual:', self.saldo)
     def Sacar(self, valor):
         if self.saldo < valor:
-            resultado2 = 'Saldo insuficiente\nSaldo atual:', self.saldo
-            return resultado2
+            print('Saldo insuficiente\nSaldo atual:', self.saldo)
         else:
             self.saldo = self.saldo - valor
-            resultado3 = 'Saque realizado com sucesso!\nSaldo atual:', self.saldo
-            return self.saldo, resultado3
+            print('Saque realizado com sucesso!\nSaldo atual:', self.saldo)
 
 c1 = Caixa_Banco(56)             #objeto
 
@@ -103,8 +100,41 @@ def Janela2():
 
         v1 = Label(tela3, text = texto, font = fonte_padrao)
         v1.grid(row = 1, column = 1)
-    
-    def Deposito():            #janela 4
+
+        back = Button(tela3, text = 'Voltar', command = Janela3)
+        back.grid( row = 2, column = 3 )
+        
+    def Janela3():
+
+        tela3.destroy()
+        time.sleep(0.3)
+
+        tela3 = Tk()
+        tela3.geometry('300x200')
+        tela3.title('Operações do Caixa')
+
+        texto = "\n  1 = Ver saldo\n\n  2 = Depositar\n"
+        texto2 = "\n  3 = Sacar\n\n4 = Sair\n"
+
+        acao1 = Label(tela3, text = texto, font = fonte_padrao)
+        acao1.grid(row = 1, column = 0)
+
+        acao2 = Label(tela3, text = texto2, font = fonte_padrao)
+        acao2.grid(row = 1, column = 1)
+
+        orienta = Label(tela3, text = '    Digite o número para', font = fonte_padrao)
+        orienta.grid(row = 4, column = 0)
+
+        orienta = Label(tela3, text = 'realizar a ação desejada : ', font = fonte_padrao)
+        orienta.grid(row = 4, column = 1)
+
+        caixa_num = Entry(tela3)
+        caixa_num['width'] = 20
+        caixa_num.grid(row = 7, column = 0)
+
+        
+
+    def Deposito():
 
         tela2.destroy()
         time.sleep(0.3)
@@ -129,14 +159,13 @@ def Janela2():
 
         #perguntar valor para depósito, armazenar resposta em quantia
         #Depositar(quantia)
-        quantia = int(dep_valor.get())   #ValueError: invalid literal for int() with base 10: ''
         
         #botão DEPOSITAR
         depositado = Button(tela4)
         depositado['text'] = 'Realizar Depósito'
         depositado['font'] = fonte_padrao
         depositado['width'] = 15
-        depositado['command'] = c1.Depositar(quantia)
+        #depositado['command'] = Depositar
         depositado.grid(row = 4, column = 2)
 
     def Saque():
@@ -164,19 +193,18 @@ def Janela2():
 
         #perguntar valor para depósito, armazenar resposta em quantia
         #Sacar(quantia)
-        quantia2 = int(saq_valor.get())  #ValueError: invalid literal for int() with base 10: ''
 
         #botão SACAR
         sacando = Button(tela5)
         sacando['text'] = 'Realizar Saque'
         sacando['font'] = fonte_padrao
         sacando['width'] = 15
-        sacando['command'] = c1.Sacar(quantia2)
+        #sacando['command'] = Sacar
         sacando.grid(row = 3, column = 2)
     
     def Operacao():
 
-        caixa_num.get()
+        str(caixa_num.get())
 
         if caixa_num.get() == '1':
             Saldo() 
