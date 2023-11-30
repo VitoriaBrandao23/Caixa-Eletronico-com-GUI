@@ -1,5 +1,5 @@
-#EM DESENVOLVIMENTO
 from tkinter import *
+from tkinter import messagebox
 import time
 
 lista_id = ['José Ribeira', 'Davi']       #adicionar mais usuários futuramente
@@ -9,234 +9,207 @@ class Caixa_Banco():
     def __init__(self, saldo):    
         self.saldo = saldo
    
-    #Funções do caixa
+    #funções do caixa
     def Ver_Saldo(self):
         return self.saldo
     def Depositar(self, valor):
         self.saldo = self.saldo + valor
-        print('Saldo atual:', self.saldo)
+        result = 'Saldo atual:', self.saldo
+        return result
     def Sacar(self, valor):
         if self.saldo < valor:
-            print('Saldo insuficiente\nSaldo atual:', self.saldo)
+            result2 = 'Saldo insuficiente\nSaldo atual:', self.saldo
+            return result2
         else:
             self.saldo = self.saldo - valor
-            print('Saque realizado com sucesso!\nSaldo atual:', self.saldo)
+            result3 = 'Saque realizado com sucesso!\nSaldo atual:', self.saldo
+            return result3
 
-c1 = Caixa_Banco(56)             #objeto
+c1 = Caixa_Banco(0.00)             #objeto 
 
-tela = Tk()                       #criando 1° tela
-tela.geometry('300x200')
+fonte_padrao = ('Calibri', '14')
 
-fonte_padrao = ('Arial', '10')
+#criando janela 3
+def Saldo():
 
-tela.title('Caixa Eletrônico')
-tela_inicial = Label(tela, text = 'Banco TEX')
-tela_inicial['font'] = ('Arial', '12', 'bold', 'italic')
-tela_inicial.grid(row = 1, column = 1)
+    tela2.destroy()
+    time.sleep(0.2)
 
-recepção = Label(tela, text = 'Olá, bem vindo ao seu banco!\nDigite seu nome e senha eletrônica')
-recepção['font'] = fonte_padrao
-recepção.grid(row = 3, column = 1)
+    tela3 = Tk()
+    tela3.title('Saldo Bancário')
+    tela3.geometry('400x350')
 
-nome = Label(tela, text = '  Nome:', font = fonte_padrao)
-nome.grid(row = 4, column = 0)
+    conta = Label(tela3, text = 'CONSULTANDO SALDO BANCÁRIO')
+    conta['font'] = ('Calibri', '14', 'bold', 'italic')
+    conta.pack()
+        
+    texto = f'Saldo Atual: R${c1.Ver_Saldo():,.2f}'
 
-caixa_nome = Entry(tela)
-caixa_nome['width'] = 29
-caixa_nome.grid(row = 4, column = 1)
+    valor_conta = Label(tela3, text = texto, font = fonte_padrao)
+    valor_conta.pack(padx = 1, pady = 1)
 
-senha = Label(tela, text = '  Senha:', font = fonte_padrao)
-senha.grid(row = 5, column = 0)
+    #botão voltar
+    back = Button(tela3, text = 'Voltar', font = fonte_padrao, command = Janela2)
+    back.pack(padx = 2, pady = 3)
+    
+#criando janela 4
+def Deposito():
 
-caixa_senha = Entry(tela, font = fonte_padrao)
-caixa_senha['width'] = 25
-caixa_senha['show'] = '*'
-caixa_senha.grid(row = 5, column = 1)
+    tela2.destroy()
+    time.sleep(0.2)
 
-mensagem = Label(tela, text = '', font = fonte_padrao)
-mensagem.grid(row = 9, column = 1)
-#funções
+    tela4 = Tk()
+    tela4.title('Depositar')
+    tela4.geometry('400x350')
 
-#Criando janela 2
+    dep = Label(tela4, text = 'ÁREA DE DEPÓSITO')
+    dep['font'] = ('Calibri', '14', 'bold', 'italic')
+    dep.pack()
+
+    texto = '\n   Por favor, digite o valor'
+
+    frase1 = Label(tela4, text = texto, font = fonte_padrao)
+    frase1.pack(padx = 1, pady = 1)
+
+    texto2 = '   que deseja depositar :'
+
+    frase2 = Label(tela4, text = texto2, font = fonte_padrao)
+    frase2.pack(padx = 2, pady = 1)
+
+    dep_valor = Entry(tela4, width = 20) 
+    dep_valor.pack(padx = 2, pady = 2)
+
+    quantia = int(dep_valor.get())  #tem que ser float
+
+    #botão DEPOSITAR
+    depositado = Button(tela4, text = 'Realizar Depósito', font = fonte_padrao, width = 15, command = c1.Depositar(quantia))
+    depositado.pack(padx = 4, pady = 2)
+
+    #botão voltar
+    back = Button(tela4, text = 'Voltar', font = fonte_padrao, command = Janela2)
+    back.pack(padx = 2, pady = 3)
+
+#criando janela 5
+def Sacar():
+
+    tela2.destroy()
+    time.sleep(0.2)
+
+    tela5 = Tk()
+    tela5.title('Sacar')
+    tela5.geometry('400x350')
+
+    saq = Label(tela5, text = 'ÁREA DE SAQUE')
+    saq['font'] = ('Calibri', '14', 'bold', 'italic')
+    saq.pack()
+
+    texto = '\n Por favor digite o valor'
+
+    frase1 = Label(tela5, text = texto, font = fonte_padrao)
+    frase1.pack(padx = 1, pady = 1)
+
+    texto2 = ' que deseja sacar :'
+
+    frase2 = Label(tela5, text = texto2, font = fonte_padrao)
+    frase2.pack(padx = 2, pady = 1)
+
+    saq_valor = Entry(tela5, width = 20)
+    saq_valor.pack(padx = 2, pady = 2)
+
+    quantia2 = saq_valor.get()
+
+    #botão SACAR
+    sacando = Button(tela5, text = 'Realizar Saque', font = fonte_padrao, width = 15, command = c1.Sacar(quantia2))
+    sacando.pack(padx = 3, pady = 2)
+
+    #botão voltar
+    back = Button(tela5, text = 'Voltar', font = fonte_padrao, command = Janela2)
+    back.pack(padx = 2, pady = 3 )
+    
+def Operacao():
+
+    caixa_num.get()
+
+    if caixa_num.get() == '1':
+        Saldo() 
+    if caixa_num.get() == '2':
+        Deposito() 
+    if caixa_num.get() == '3':
+        Sacar()
+    if caixa_num.get() == '4':
+        time.sleep(0.2)
+        tela2.destroy()
+
 def Janela2():
-
-    tela.destroy()
-    time.sleep(0.3)
-
+        
+    time.sleep(0.2)
+        
+    global tela2
     tela2 = Tk()
-    tela2.geometry('300x200')
+    tela2.geometry('400x350')
     tela2.title('Operações do Caixa')
 
     texto = "\n  1 = Ver saldo\n\n  2 = Depositar\n"
     texto2 = "\n  3 = Sacar\n\n4 = Sair\n"
 
-    acao1 = Label(tela2, text = texto, font = fonte_padrao)
-    acao1.grid(row = 1, column = 0)
+    opcao1 = Label(tela2, text = texto, font = fonte_padrao)
+    opcao1.pack(padx = 1, pady = 0)
 
-    acao2 = Label(tela2, text = texto2, font = fonte_padrao)
-    acao2.grid(row = 1, column = 1)
+    opcao2 = Label(tela2, text = texto2, font = fonte_padrao)
+    opcao2.pack(padx = 1, pady = 1)
 
     orienta = Label(tela2, text = '    Digite o número para', font = fonte_padrao)
-    orienta.grid(row = 4, column = 0)
+    orienta.pack(padx = 4, pady = 0)
 
     orienta = Label(tela2, text = 'realizar a ação desejada : ', font = fonte_padrao)
-    orienta.grid(row = 4, column = 1)
+    orienta.pack(padx = 4, pady = 1)
 
-    caixa_num = Entry(tela2)
-    caixa_num['width'] = 20
-    caixa_num.grid(row = 7, column = 0)
+    global caixa_num
+    caixa_num = Entry(tela2, width = 20)
+    caixa_num.pack(padx = 7, pady = 0)
 
-    #função
-    def Saldo():                #janela 3
+    #botão_continuar                                                                               
+    next = Button(tela2, text = 'Continuar', font = fonte_padrao, width = 10, command = Operacao)
+    next.pack(padx = 7, pady = 1)
 
-        tela2.destroy()
-        time.sleep(0.3)
+#criando tela_inicial
+global tela1
+tela1 = Tk()
+tela1.geometry('400x350')
+tela1.title('Caixa Eletrônico')
 
-        tela3 = Tk()
-        tela3.geometry('300x200')
-        tela3.title('Saldo Bancário')
-        
-        texto = f'Seu saldo atual é de R${c1.Ver_Saldo()}'  
+login = Label(tela1, text = 'BANCO TEX')
+login['font'] = ('Calibri', '14', 'bold', 'italic')
+login.pack()
 
-        v1 = Label(tela3, text = texto, font = fonte_padrao)
-        v1.grid(row = 1, column = 1)
+recepcao = Label(tela1, text = 'Olá, bem vindo ao seu banco!\nDigite seu nome e senha eletrônica', font = fonte_padrao)
+recepcao.pack(padx = 3, pady = 1)
 
-        back = Button(tela3, text = 'Voltar', command = Janela3)
-        back.grid( row = 2, column = 3 )
-        
-    def Janela3():
+nome = Label(tela1, text = '  Nome:', font = fonte_padrao)
+nome.pack(padx = 4, pady = 0)
 
-        tela3.destroy()
-        time.sleep(0.3)
-
-        tela3 = Tk()
-        tela3.geometry('300x200')
-        tela3.title('Operações do Caixa')
-
-        texto = "\n  1 = Ver saldo\n\n  2 = Depositar\n"
-        texto2 = "\n  3 = Sacar\n\n4 = Sair\n"
-
-        acao1 = Label(tela3, text = texto, font = fonte_padrao)
-        acao1.grid(row = 1, column = 0)
-
-        acao2 = Label(tela3, text = texto2, font = fonte_padrao)
-        acao2.grid(row = 1, column = 1)
-
-        orienta = Label(tela3, text = '    Digite o número para', font = fonte_padrao)
-        orienta.grid(row = 4, column = 0)
-
-        orienta = Label(tela3, text = 'realizar a ação desejada : ', font = fonte_padrao)
-        orienta.grid(row = 4, column = 1)
-
-        caixa_num = Entry(tela3)
-        caixa_num['width'] = 20
-        caixa_num.grid(row = 7, column = 0)
-
-        
-
-    def Deposito():
-
-        tela2.destroy()
-        time.sleep(0.3)
-
-        tela4 = Tk()
-        tela4.geometry('300x200')
-        tela4.title('Depositar')
-        
-        texto = '\n   Por favor, digite o valor'
-
-        d1 = Label(tela4, text = texto, font = fonte_padrao)
-        d1.grid(row = 1, column = 1)
-
-        texto2 = '   que deseja depositar :'
-
-        d2 = Label(tela4, text = texto2, font = fonte_padrao)
-        d2.grid(row = 2, column = 1)
-
-        dep_valor = Entry(tela4)
-        dep_valor['width'] = 20
-        dep_valor.grid(row = 2, column = 2)
-
-        #perguntar valor para depósito, armazenar resposta em quantia
-        #Depositar(quantia)
-        
-        #botão DEPOSITAR
-        depositado = Button(tela4)
-        depositado['text'] = 'Realizar Depósito'
-        depositado['font'] = fonte_padrao
-        depositado['width'] = 15
-        #depositado['command'] = Depositar
-        depositado.grid(row = 4, column = 2)
-
-    def Saque():
-
-        tela2.destroy()
-        time.sleep(0.3)
-
-        tela5 = Tk()
-        tela5.geometry('300x200')
-        tela5.title('Sacar')
-
-        texto = '\n Por favor digite o valor'
-
-        s1 = Label(tela5, text = texto, font = fonte_padrao)
-        s1.grid(row = 1, column = 1)
-
-        texto2 = ' que deseja sacar :'
-
-        s2 = Label(tela5, text = texto2, font = fonte_padrao)
-        s2.grid(row = 2, column = 1)
-
-        saq_valor = Entry(tela5)
-        saq_valor['width'] = 20
-        saq_valor.grid(row = 2, column = 2)
-
-        #perguntar valor para depósito, armazenar resposta em quantia
-        #Sacar(quantia)
-
-        #botão SACAR
-        sacando = Button(tela5)
-        sacando['text'] = 'Realizar Saque'
-        sacando['font'] = fonte_padrao
-        sacando['width'] = 15
-        #sacando['command'] = Sacar
-        sacando.grid(row = 3, column = 2)
+global caixa_nome
+caixa_nome = Entry(tela1, width = 29)
+caixa_nome.pack(padx = 4, pady = 1)
     
-    def Operacao():
+senha = Label(tela1, text = '  Senha:', font = fonte_padrao)
+senha.pack(padx = 5, pady = 0)
+    
+global caixa_senha
+caixa_senha = Entry(tela1, font = fonte_padrao, width = 25, show = '*')
+caixa_senha.pack(padx = 5, pady = 1)
 
-        str(caixa_num.get())
-
-        if caixa_num.get() == '1':
-            Saldo() 
-        if caixa_num.get() == '2':
-            Deposito() 
-        if caixa_num.get() == '3':
-            Saque()
-        if caixa_num.get() == '4':
-            time.sleep(0.2)
-            tela2.destroy()
-
-    next = Button(tela2)
-    next['text'] = 'Continuar'
-    next['font'] = fonte_padrao
-    next['width'] = 10
-    next['command'] = Operacao
-    next.grid(row = 7, column = 1)
-
-#Verifica usuário
 def Verificar_usuario():
 
     if caixa_nome.get() in lista_id and caixa_senha.get() in lista_senha:
+        messagebox.showinfo(title = 'Login Aprovado!', message = 'Seja bem-vindo!')
+        tela1.destroy()
         Janela2()
     else:
-        mensagem['text'] = 'Usuário não identificado!'
+        messagebox.showerror(title = 'Login Negado!', message = 'Usuário não identificado')
 
-#Botão
-login = Button(tela)
-login['text'] = 'Entrar'
-login['font'] = fonte_padrao
-login['width'] = 10
-login['command'] = Verificar_usuario
-login.grid(row = 7, column = 1)
+#botão_entrar
+botao = Button(tela1, text = 'Entrar', font = fonte_padrao, command = Verificar_usuario)
+botao.pack(padx = 7, pady = 1)
 
-tela.mainloop()
+tela1.mainloop()
