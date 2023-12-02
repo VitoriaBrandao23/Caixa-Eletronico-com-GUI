@@ -8,7 +8,11 @@ lista_senha = ['PROC89ziu', '123456']
 fonte_padrao = ('Calibri', '14')
 
 class Caixa_Banco():
+    
+
     def __init__(self, saldo):    
+        global Saldo
+        saldo = 0.0
         self.saldo = saldo
     
     #funções do caixa
@@ -48,21 +52,17 @@ def Saldo():
     back = Button(tela3, text = 'Voltar', font = fonte_padrao, command = Janela2)
     back.pack(padx = 2, pady = 3)
 
+    def botao3_press(enter):
+        Janela2()
+
+    tela3.bind('<Return>', botao3_press)
 numero = 10
 
-'''def obter_numero(self, event):
-    try:
-        numero = int(quantia.get())
-        saldo = numero
-        return saldo
-    except ValueError:
-        print("Entrada inválida. Insira um número inteiro.")'''
-
-def click(event):
+'''def click(event):
     texto = f'Saldo Atual: R${saldo_att:,.2f}'
 
     valor_conta = Label(tela4, text = texto, font = fonte_padrao)
-    valor_conta.pack(padx = 3, pady = 3)
+    valor_conta.pack(padx = 3, pady = 3)'''
 #criando janela 4
 def Deposito():
 
@@ -86,40 +86,31 @@ def Deposito():
     frase2.pack(padx = 2, pady = 1)
 
     global dep_valor
-    dep_valor = Entry(tela4, width = 20)
+    #dep_valor = Entry(tela4, width = 20)
 
-    '''def sem_letra(event):
-            # valor atual cpf
-            formato = dep_valor.get()
-    # Remove todos os caracteres não numéricos
-            formato = ''.join(filter(str.isdigit, formato))
-    # campo formato
-            dep_valor.delete(0, END)'''
+    saldo = DoubleVar(tela4)
+    dep_valor = DoubleVar(tela4)
+    def aritmetica (e):
+     dep_valor.set(saldo.get()+dep_valor.get())   
+     
+    saldo = Label(tela4, textvar=saldo)
+    valor = Entry(tela4, textvar=dep_valor)
+    valor.bind('<Button-1>', aritmetica)
+    saldo.pack(padx = 2, pady = 2)
+    valor.pack(padx = 3, pady = 3)
 
-    #dep_valor.bind('<Key>', obter_numero)
-    #dep_valor.bind('<Key>', sem_letra)
-    dep_valor.pack(padx = 2, pady = 2)
+    #valor.pack(padx = 2, pady = 2)
 
     #botão DEPOSITAR
-    depositado = Button(tela4, text = 'Realizar Depósito', font = fonte_padrao, width = 15, command=c1.Depositar(numero))
-    depositado.bind('<Button-1>', click)
-    depositado.pack(padx = 4, pady = 2)
+    depositado = Button(tela4, text = 'Realizar Depósito', font = fonte_padrao, width = 15, command=aritmetica)
+    #depositado = Button(tela4, text = 'Realizar Depósito', font = fonte_padrao, width = 15, command=c1.Depositar(numero))
+    #depositado.bind('<Button-1>', click)
+    depositado.pack(padx = 4, pady = 4)
 
     #botão voltar
     back = Button(tela4, text = 'Voltar', font = fonte_padrao, command = Janela2)
-    back.pack(padx = 2, pady = 3)
-
-'''saldo = DoubleVar(tela4)
-dep_valor = DoubleVar(tela4)
-def aritmetica (e):
- dep_valor.set(saldo.get()+dep_valor.get())
-
-saldo = Label(textvar=saldo)
-valor = Entry(textvar=dep_valor)
-valor.bind("<Return>", aritmetica)
-saldo.pack()
-valor.pack()'''
-
+    back.pack(padx = 5, pady = 5)
+    
 #para a janela 5
 def saq(event):
     if saldo_att > numero:
