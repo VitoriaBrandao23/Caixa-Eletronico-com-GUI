@@ -4,30 +4,26 @@ import time
 
 lista_id = ['José Ribeira', 'Davi']       #adicionar mais usuários futuramente
 lista_senha = ['PROC89ziu', '123456']
-resp = []
+
+fonte_padrao = ('Calibri', '14')
 
 class Caixa_Banco():
     def __init__(self, saldo):    
         self.saldo = saldo
-   
+    
     #funções do caixa
     def Ver_Saldo(self):
         return self.saldo
     def Depositar(self, valor):
         self.saldo = self.saldo + valor
+        global saldo_att
+        saldo_att = self.saldo
     def Sacar(self, valor):
-        if self.saldo < valor:
-            result2 = 'Saldo insuficiente\nSaldo atual:', self.saldo
-            return result2
-        else:
+        if self.saldo > valor:
             self.saldo = self.saldo - valor
-            result3 = 'Saque realizado com sucesso!\nSaldo atual:', self.saldo
-            return result3
+            return self.saldo
 
-c1 = Caixa_Banco(0.00)             #objeto 
-#atualizar saldo
-
-fonte_padrao = ('Calibri', '14')
+c1 = Caixa_Banco(0)             #objeto 
 
 #criando janela 3
 def Saldo():
@@ -51,25 +47,26 @@ def Saldo():
     #botão voltar
     back = Button(tela3, text = 'Voltar', font = fonte_padrao, command = Janela2)
     back.pack(padx = 2, pady = 3)
-    
+
+numero = 10
+
+'''def obter_numero(self, event):
+    try:
+        numero = int(quantia.get())
+        saldo = numero
+        return saldo
+    except ValueError:
+        print("Entrada inválida. Insira um número inteiro.")'''
+
+def click(event):
+    texto = f'Saldo Atual: R${saldo_att:,.2f}'
+
+    valor_conta = Label(tela4, text = texto, font = fonte_padrao)
+    valor_conta.pack(padx = 3, pady = 3)
 #criando janela 4
 def Deposito():
-    global numero   
-    numero = 0
-    def verificar(event):
-        print('Valor Recebido!')
 
-    def obter_numero(event):
-        try:
-            numero = int(dep_valor.get())
-            # Faça algo com o número inteiro obtido, por exemplo, imprimir na tela
-            print("Número inteiro inserido:", numero)
-            return numero
-        except ValueError:
-            # Lidar com a situação em que o usuário inseriu algo que não pode ser convertido para um número inteiro
-            print("Entrada inválida. Insira um número inteiro.")
-
-
+    global tela4
     tela4 = Tk()
     tela4.title('Depositar')
     tela4.geometry('400x350')
@@ -88,6 +85,7 @@ def Deposito():
     frase2 = Label(tela4, text = texto2, font = fonte_padrao)
     frase2.pack(padx = 2, pady = 1)
 
+    global dep_valor
     dep_valor = Entry(tela4, width = 20)
 
     '''def sem_letra(event):
@@ -98,32 +96,35 @@ def Deposito():
     # campo formato
             dep_valor.delete(0, END)'''
 
-    dep_valor.bind('<Key>', verificar)
-    dep_valor.bind('<Key>', obter_numero)
+    #dep_valor.bind('<Key>', obter_numero)
     #dep_valor.bind('<Key>', sem_letra)
     dep_valor.pack(padx = 2, pady = 2)
 
     #botão DEPOSITAR
     depositado = Button(tela4, text = 'Realizar Depósito', font = fonte_padrao, width = 15, command=c1.Depositar(numero))
+    depositado.bind('<Button-1>', click)
     depositado.pack(padx = 4, pady = 2)
-    
-    #quando botão for presionado, aparecer o texto do saldo lá na tela
-    #if depositado 
 
-    texto = f'Saldo Atual: R${c1.Ver_Saldo():,.2f}'
-
-    valor_conta = Label(tela4, text = texto, font = fonte_padrao)
-    valor_conta.pack(padx = 1, pady = 1)
     #botão voltar
     back = Button(tela4, text = 'Voltar', font = fonte_padrao, command = Janela2)
     back.pack(padx = 2, pady = 3)
 
+#para a janela 5
+def saq(event):
+    if saldo_att > numero:
+        valor_conta = Label(tela5, text = 'Saque realizado com sucesso!', font = fonte_padrao)
+        valor_conta.pack(padx = 3, pady = 3)
+    else:
+        valor_conta = Label(tela5, text = 'Saldo insuficiente', font = fonte_padrao)
+        valor_conta.pack(padx = 3, pady = 3)
+
 #criando janela 5
-def Sacar():
+def Saque():
 
     tela2.destroy()
     time.sleep(0.2)
 
+    global tela5
     tela5 = Tk()
     tela5.title('Sacar')
     tela5.geometry('400x350')
@@ -145,10 +146,9 @@ def Sacar():
     saq_valor = Entry(tela5, width = 20)
     saq_valor.pack(padx = 2, pady = 2)
 
-    quantia2 = saq_valor.get()
-
     #botão SACAR
-    sacando = Button(tela5, text = 'Realizar Saque', font = fonte_padrao, width = 15, command = c1.Sacar(quantia2))
+    sacando = Button(tela5, text = 'Realizar Saque', font = fonte_padrao, width = 15, command = c1.Sacar(numero))
+    sacando.bind('<Button-1>', saq)
     sacando.pack(padx = 3, pady = 2)
 
     #botão voltar
@@ -164,7 +164,7 @@ def Operacao():
     if caixa_num.get() == '2':
         Deposito() 
     if caixa_num.get() == '3':
-        Sacar()
+        Saque()
     if caixa_num.get() == '4':
         time.sleep(0.2)
         tela2.destroy()
@@ -202,7 +202,6 @@ def Janela2():
     next.pack(padx = 7, pady = 1)
 
 #criando tela_inicial
-global tela1
 tela1 = Tk()
 tela1.geometry('400x350')
 tela1.title('Caixa Eletrônico')
@@ -217,19 +216,17 @@ recepcao.pack(padx = 3, pady = 1)
 nome = Label(tela1, text = '  Nome:', font = fonte_padrao)
 nome.pack(padx = 4, pady = 0)
 
-global caixa_nome
 caixa_nome = Entry(tela1, width = 29)
 caixa_nome.pack(padx = 4, pady = 1)
     
 senha = Label(tela1, text = '  Senha:', font = fonte_padrao)
 senha.pack(padx = 5, pady = 0)
     
-global caixa_senha
 caixa_senha = Entry(tela1, font = fonte_padrao, width = 25, show = '*')
 caixa_senha.pack(padx = 5, pady = 1)
 
 def Verificar_usuario():
-
+    
     if caixa_nome.get() in lista_id and caixa_senha.get() in lista_senha:
         messagebox.showinfo(title = 'Login Aprovado!', message = 'Seja bem-vindo!')
         tela1.destroy()
