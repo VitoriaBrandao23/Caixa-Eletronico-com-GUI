@@ -109,6 +109,17 @@ def Deposito():
     back = Button(tela4, text = 'Voltar', font = fonte_padrao, command = Janela2)
     back.pack(padx = 2, pady = 3)
 
+'''saldo = DoubleVar(tela4)
+dep_valor = DoubleVar(tela4)
+def aritmetica (e):
+ dep_valor.set(saldo.get()+dep_valor.get())
+
+saldo = Label(textvar=saldo)
+valor = Entry(textvar=dep_valor)
+valor.bind("<Return>", aritmetica)
+saldo.pack()
+valor.pack()'''
+
 #para a janela 5
 def saq(event):
     if saldo_att > numero:
@@ -117,6 +128,7 @@ def saq(event):
     else:
         valor_conta = Label(tela5, text = 'Saldo insuficiente', font = fonte_padrao)
         valor_conta.pack(padx = 3, pady = 3)
+
 
 #criando janela 5
 def Saque():
@@ -201,6 +213,11 @@ def Janela2():
     next = Button(tela2, text = 'Continuar', font = fonte_padrao, width = 10, command = Operacao)
     next.pack(padx = 7, pady = 1)
 
+    def botao2_press(enter):
+        Operacao()
+
+    tela2.bind('<Return>', botao2_press)
+
 #criando tela_inicial
 tela1 = Tk()
 tela1.geometry('400x350')
@@ -237,5 +254,10 @@ def Verificar_usuario():
 #botão_entrar
 botao = Button(tela1, text = 'Entrar', font = fonte_padrao, command = Verificar_usuario)
 botao.pack(padx = 7, pady = 1)
+
+def botao_press(enter):
+    Verificar_usuario()
+
+tela1.bind('<Return>', botao_press)
 
 tela1.mainloop()
