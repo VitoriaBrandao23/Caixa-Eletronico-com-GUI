@@ -19,7 +19,7 @@ class Caixa_Banco():
     def Ver_Saldo(self):
         return self.saldo
     def Depositar(self, valor):
-        self.saldo = self.saldo + valor
+        self.saldo = self.saldo + dep2
         global saldo_att
         saldo_att = self.saldo
     def Sacar(self, valor):
@@ -35,9 +35,11 @@ def Saldo():
     tela2.destroy()
     time.sleep(0.2)
 
+    global tela3
     tela3 = Tk()
     tela3.title('Saldo Bancário')
     tela3.geometry('400x350')
+    tela3.focus()
 
     conta = Label(tela3, text = 'CONSULTANDO SALDO BANCÁRIO')
     conta['font'] = ('Calibri', '14', 'bold', 'italic')
@@ -53,12 +55,13 @@ def Saldo():
     back.pack(padx = 2, pady = 3)
 
     def botao3_press(enter):
+        tela3.destroy()
         Janela2()
-
     tela3.bind('<Return>', botao3_press)
-numero = 10
 
+saldo =int(0) 
 '''def click(event):
+
     texto = f'Saldo Atual: R${saldo_att:,.2f}'
 
     valor_conta = Label(tela4, text = texto, font = fonte_padrao)
@@ -86,25 +89,39 @@ def Deposito():
     frase2.pack(padx = 2, pady = 1)
 
     global dep_valor
-    #dep_valor = Entry(tela4, width = 20)
-
-    saldo = DoubleVar(tela4)
+    global dep2
     dep_valor = DoubleVar(tela4)
-    def aritmetica (e):
-     dep_valor.set(saldo.get()+dep_valor.get())   
+    dep_valor = Entry(tela4,textvar=dep_valor, width = 20)
+    dep1 = str(dep_valor)
+    dep2 = float(dep1)
+    dep_valor.pack(padx = 2, pady = 2)
+    
+    #d_valor = int(dep1)
+    
+    def click(event):
+        saldo_att = int(dep1) + saldo
+        print(type(dep1))
+        print(type(saldo))
+        texto = f'Saldo Atual: R${saldo_att:,.2f}'
+
+        valor_conta = Label(tela4, text = texto, font = fonte_padrao)
+        valor_conta.pack(padx = 3, pady = 3)
+
+    '''saldo = DoubleVar(tela4)
+    
+    def aritmetica (event):
+     dep_valor.set(saldo.get()+dep_valor.get())  
      
-    saldo = Label(tela4, textvar=saldo)
+    saldo = Label(tela4, textvar=saldo,)
     valor = Entry(tela4, textvar=dep_valor)
     valor.bind('<Button-1>', aritmetica)
     saldo.pack(padx = 2, pady = 2)
-    valor.pack(padx = 3, pady = 3)
-
-    #valor.pack(padx = 2, pady = 2)
+    valor.pack(padx = 3, pady = 3)'''             
 
     #botão DEPOSITAR
-    depositado = Button(tela4, text = 'Realizar Depósito', font = fonte_padrao, width = 15, command=aritmetica)
-    #depositado = Button(tela4, text = 'Realizar Depósito', font = fonte_padrao, width = 15, command=c1.Depositar(numero))
-    #depositado.bind('<Button-1>', click)
+    #depositado = Button(tela4, text = 'Realizar Depósito', font = fonte_padrao, width = 15, command=aritmetica)
+    depositado = Button(tela4, text = 'Realizar Depósito', font = fonte_padrao, width = 15, command=c1.Depositar(saldo))
+    depositado.bind('<return', click)
     depositado.pack(padx = 4, pady = 4)
 
     #botão voltar
@@ -113,7 +130,7 @@ def Deposito():
     
 #para a janela 5
 def saq(event):
-    if saldo_att > numero:
+    if saldo_att > saldo:
         valor_conta = Label(tela5, text = 'Saque realizado com sucesso!', font = fonte_padrao)
         valor_conta.pack(padx = 3, pady = 3)
     else:
@@ -150,13 +167,18 @@ def Saque():
     saq_valor.pack(padx = 2, pady = 2)
 
     #botão SACAR
-    sacando = Button(tela5, text = 'Realizar Saque', font = fonte_padrao, width = 15, command = c1.Sacar(numero))
+    sacando = Button(tela5, text = 'Realizar Saque', font = fonte_padrao, width = 15, command = c1.Sacar(saldo))
     sacando.bind('<Button-1>', saq)
     sacando.pack(padx = 3, pady = 2)
 
     #botão voltar
     back = Button(tela5, text = 'Voltar', font = fonte_padrao, command = Janela2)
     back.pack(padx = 2, pady = 3 )
+
+    def botao5_press(enter):
+        tela5.destroy()
+        Janela2()
+    tela5.bind('<Return>', botao5_press)    
     
 def Operacao():
 
@@ -171,6 +193,10 @@ def Operacao():
     if caixa_num.get() == '4':
         time.sleep(0.2)
         tela2.destroy()
+        tela3.destroy()
+        tela4.destroy()
+        tela5.destroy()
+
 
 def Janela2():
         
@@ -205,6 +231,7 @@ def Janela2():
     next.pack(padx = 7, pady = 1)
 
     def botao2_press(enter):
+        tela2.focus()
         Operacao()
 
     tela2.bind('<Return>', botao2_press)
@@ -247,8 +274,8 @@ botao = Button(tela1, text = 'Entrar', font = fonte_padrao, command = Verificar_
 botao.pack(padx = 7, pady = 1)
 
 def botao_press(enter):
+    tela1.focus()
     Verificar_usuario()
-
 tela1.bind('<Return>', botao_press)
 
 tela1.mainloop()
