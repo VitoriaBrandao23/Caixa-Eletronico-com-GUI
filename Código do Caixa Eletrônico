@@ -2,32 +2,37 @@ from tkinter import *
 from tkinter import messagebox
 import time
 
-lista_id = ['José Ribeira', 'Davi']       #adicionar mais usuários futuramente
+lista_id = ['José Ribeira', 'Davi']       
 lista_senha = ['PROC89ziu', '123456']
 
 fonte_padrao = ('Calibri', '14')
 
 class Caixa_Banco():
-    
-
     def __init__(self, saldo):    
-        global Saldo
-        saldo = 0.0
         self.saldo = saldo
     
     #funções do caixa
     def Ver_Saldo(self):
         return self.saldo
     def Depositar(self, valor):
-        self.saldo = self.saldo + dep2
+        self.saldo = self.saldo + valor
         global saldo_att
-        saldo_att = self.saldo
+        saldo_att = self.saldo  #não usando em nada por enquanto, mas pode ser útil ainda
+        messagebox.showinfo(message = 'Depósito realizado!')  #aparece antes do usuário digitar/aparecer após o usuário apertar no botão REALIZAR DEPÓSITO
     def Sacar(self, valor):
         if self.saldo > valor:
             self.saldo = self.saldo - valor
             return self.saldo
+            messagebox.showerror(message = 'Saque realizado!') #aparecer após o usuário apertar no botão REALIZAR SAQUE
+        elif self.saldo < valor:
+            messagebox.showerror(message = 'Saldo Insuficiente!') #aparece antes do usuário digitar
 
 c1 = Caixa_Banco(0)             #objeto 
+
+#para a janela 3
+def botao3_press(enter):
+        tela3.destroy()
+        Janela2()
 
 #criando janela 3
 def Saldo():
@@ -35,11 +40,9 @@ def Saldo():
     tela2.destroy()
     time.sleep(0.2)
 
-    global tela3
     tela3 = Tk()
     tela3.title('Saldo Bancário')
     tela3.geometry('400x350')
-    tela3.focus()
 
     conta = Label(tela3, text = 'CONSULTANDO SALDO BANCÁRIO')
     conta['font'] = ('Calibri', '14', 'bold', 'italic')
@@ -54,18 +57,29 @@ def Saldo():
     back = Button(tela3, text = 'Voltar', font = fonte_padrao, command = Janela2)
     back.pack(padx = 2, pady = 3)
 
-    def botao3_press(enter):
-        tela3.destroy()
-        Janela2()
     tela3.bind('<Return>', botao3_press)
 
-saldo =int(0) 
-'''def click(event):
+#tentando resgatar resposta do usuário
+numero = 10
 
-    texto = f'Saldo Atual: R${saldo_att:,.2f}'
+'''def obter_numero(self, event):
+    resposta = dep_valor.get()
+    try:
+        numero = int(resposta)
+        saldo = numero
+        return saldo'''
 
-    valor_conta = Label(tela4, text = texto, font = fonte_padrao)
-    valor_conta.pack(padx = 3, pady = 3)'''
+def sem_letra(nova_valor, motivo, valor_atual):
+    if nova_valor.isdigit() or nova_valor == "":
+        return True
+    else:
+        return False
+
+#para a janela 4
+def botao4_press(enter):
+        tela4.destroy()
+        Janela2()
+
 #criando janela 4
 def Deposito():
 
@@ -88,55 +102,28 @@ def Deposito():
     frase2 = Label(tela4, text = texto2, font = fonte_padrao)
     frase2.pack(padx = 2, pady = 1)
 
+    validacao_numeros = tela4.register(sem_letra)
+
     global dep_valor
-    global dep2
-    dep_valor = DoubleVar(tela4)
-    dep_valor = Entry(tela4,textvar=dep_valor, width = 20)
-    dep1 = str(dep_valor)
-    dep2 = float(dep1)
+    dep_valor = Entry(tela4, width = 20, validate="key", validatecommand=(validacao_numeros, '%P', '%d', '%S'))   #caixa de texto
+    #dep_valor.bind('<Key>', obter_numero)
     dep_valor.pack(padx = 2, pady = 2)
-    
-    #d_valor = int(dep1)
-    
-    def click(event):
-        saldo_att = int(dep1) + saldo
-        print(type(dep1))
-        print(type(saldo))
-        texto = f'Saldo Atual: R${saldo_att:,.2f}'
-
-        valor_conta = Label(tela4, text = texto, font = fonte_padrao)
-        valor_conta.pack(padx = 3, pady = 3)
-
-    '''saldo = DoubleVar(tela4)
-    
-    def aritmetica (event):
-     dep_valor.set(saldo.get()+dep_valor.get())  
-     
-    saldo = Label(tela4, textvar=saldo,)
-    valor = Entry(tela4, textvar=dep_valor)
-    valor.bind('<Button-1>', aritmetica)
-    saldo.pack(padx = 2, pady = 2)
-    valor.pack(padx = 3, pady = 3)'''             
 
     #botão DEPOSITAR
-    #depositado = Button(tela4, text = 'Realizar Depósito', font = fonte_padrao, width = 15, command=aritmetica)
-    depositado = Button(tela4, text = 'Realizar Depósito', font = fonte_padrao, width = 15, command=c1.Depositar(saldo))
-    depositado.bind('<return', click)
-    depositado.pack(padx = 4, pady = 4)
+    depositado = Button(tela4, text = 'Realizar Depósito', font = fonte_padrao, width = 15, command=c1.Depositar(numero))
+    depositado.pack(padx = 4, pady = 2)
 
     #botão voltar
     back = Button(tela4, text = 'Voltar', font = fonte_padrao, command = Janela2)
-    back.pack(padx = 5, pady = 5)
-    
-#para a janela 5
-def saq(event):
-    if saldo_att > saldo:
-        valor_conta = Label(tela5, text = 'Saque realizado com sucesso!', font = fonte_padrao)
-        valor_conta.pack(padx = 3, pady = 3)
-    else:
-        valor_conta = Label(tela5, text = 'Saldo insuficiente', font = fonte_padrao)
-        valor_conta.pack(padx = 3, pady = 3)
+    back.pack(padx = 2, pady = 3)
 
+    tela4.bind('<Return>', botao4_press)
+
+
+#para a janela 5
+def botao5_press(enter):
+        tela5.destroy()
+        Janela2()
 
 #criando janela 5
 def Saque():
@@ -163,22 +150,19 @@ def Saque():
     frase2 = Label(tela5, text = texto2, font = fonte_padrao)
     frase2.pack(padx = 2, pady = 1)
 
-    saq_valor = Entry(tela5, width = 20)
+    validacao_numeros = tela5.register(sem_letra)
+    saq_valor = Entry(tela5, width = 20, validate="key", validatecommand=(validacao_numeros, '%P', '%d', '%S'))     #caixa de texto
     saq_valor.pack(padx = 2, pady = 2)
 
     #botão SACAR
-    sacando = Button(tela5, text = 'Realizar Saque', font = fonte_padrao, width = 15, command = c1.Sacar(saldo))
-    sacando.bind('<Button-1>', saq)
+    sacando = Button(tela5, text = 'Realizar Saque', font = fonte_padrao, width = 15, command = c1.Sacar(numero))
     sacando.pack(padx = 3, pady = 2)
 
     #botão voltar
     back = Button(tela5, text = 'Voltar', font = fonte_padrao, command = Janela2)
     back.pack(padx = 2, pady = 3 )
 
-    def botao5_press(enter):
-        tela5.destroy()
-        Janela2()
-    tela5.bind('<Return>', botao5_press)    
+    tela5.bind('<Return>', botao5_press)
     
 def Operacao():
 
@@ -193,11 +177,13 @@ def Operacao():
     if caixa_num.get() == '4':
         time.sleep(0.2)
         tela2.destroy()
-        tela3.destroy()
-        tela4.destroy()
-        tela5.destroy()
 
+#para a janela 2
+def botao2_press(enter):
+        tela2.focus()
+        Operacao()
 
+#criando janela 2
 def Janela2():
         
     time.sleep(0.2)
@@ -229,10 +215,6 @@ def Janela2():
     #botão_continuar                                                                               
     next = Button(tela2, text = 'Continuar', font = fonte_padrao, width = 10, command = Operacao)
     next.pack(padx = 7, pady = 1)
-
-    def botao2_press(enter):
-        tela2.focus()
-        Operacao()
 
     tela2.bind('<Return>', botao2_press)
 
@@ -276,6 +258,7 @@ botao.pack(padx = 7, pady = 1)
 def botao_press(enter):
     tela1.focus()
     Verificar_usuario()
+
 tela1.bind('<Return>', botao_press)
 
 tela1.mainloop()
