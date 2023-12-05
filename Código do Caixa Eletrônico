@@ -17,8 +17,10 @@ class Caixa_Banco():
     def Depositar(self):
         try:
             num_a = int(dep_valor.get())
-            sum = num_a + self.saldo
-            print('soma:',sum)
+            global soma
+            soma = num_a + self.saldo
+            self.saldo = soma
+            print('soma:', soma)
             messagebox.showinfo(message = 'Depósito realizado!')
         except:
             num_a = 0
@@ -27,8 +29,8 @@ class Caixa_Banco():
         try:
             num_a = int(dep_valor.get())
             if self.saldo > num_a:
-                self.saldo = self.saldo - num_a
-                messagebox.showerror(message = 'Saque realizado!')
+                self.saldo = self.saldo - self.saldo
+                messagebox.showinfo(message = 'Saque realizado!')
             elif self.saldo < num_a:
                 messagebox.showerror(message = 'Saldo Insuficiente!')
         except:
@@ -106,6 +108,7 @@ def Deposito():
 
     validacao_numeros = tela4.register(sem_letra)
 
+    global dep_valor
     dep_valor = Entry(tela4, font = fonte_padrao, width = 15, validate="key", validatecommand=(validacao_numeros, '%P', '%d', '%S'))
     dep_valor.grid(row = 2, column = 1)
 
