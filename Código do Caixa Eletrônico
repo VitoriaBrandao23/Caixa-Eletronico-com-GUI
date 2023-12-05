@@ -15,27 +15,19 @@ class Caixa_Banco():
     def Ver_Saldo(self):
         return self.saldo
     def Depositar(self):
-        try:
+        if int(dep_valor.get()):
             num_a = int(dep_valor.get())
             global soma
             soma = num_a + self.saldo
             self.saldo = soma
-            print('soma:', soma)
             messagebox.showinfo(message = 'Depósito realizado!')
-        except:
-            num_a = 0
-            print('temos:',num_a)
     def Sacar(self):
-        try:
-            num_a = int(dep_valor.get())
-            if self.saldo > num_a:
-                self.saldo = self.saldo - self.saldo
+        num_a = int(saq_valor.get())
+        if self.saldo > num_a:
+                self.saldo = self.saldo - num_a
                 messagebox.showinfo(message = 'Saque realizado!')
-            elif self.saldo < num_a:
+        elif self.saldo < num_a:
                 messagebox.showerror(message = 'Saldo Insuficiente!')
-        except:
-            num_a = 0
-            print('temos:',num_a)
 
 c1 = Caixa_Banco(5)             #objeto 
 
@@ -153,6 +145,8 @@ def Saque():
     frase2.grid(row = 2, column = 0)
 
     validacao_numeros = tela5.register(sem_letra)
+
+    global saq_valor
     saq_valor = Entry(tela5, font = fonte_padrao, width = 15, validate="key", validatecommand=(validacao_numeros, '%P', '%d', '%S'))
     saq_valor.grid(row = 2, column = 1)
 
