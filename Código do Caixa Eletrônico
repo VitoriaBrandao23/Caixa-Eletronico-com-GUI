@@ -174,7 +174,6 @@ def Operacao():
 
 #para a janela 2
 def botao2_press(enter):
-        tela2.focus()
         Operacao()
 
 #criando janela 2
@@ -255,7 +254,6 @@ def Verificar_usuario():
         messagebox.showerror(title = 'Login Negado!', message = 'Usuário não identificado')
 
 def botao_press(enter):
-    tela1.focus()
     Verificar_usuario()
 
 janela1()
