@@ -3,7 +3,7 @@ from tkinter import messagebox
 import time
 
 lista_id = ['José Ribeira', 'Davi']       
-lista_senha = ['PROC89ziu', '123456']
+lista_senha = ['PROCziu89','123456']
 
 fonte_padrao = ('Calibri', '14')
 
@@ -217,8 +217,44 @@ def Janela2():
 
     tela2.bind('<Return>', botao2_press)
 
+#Registro de novos usuários
+def Novo_user():
+    global tela6
+    tela6 = Tk()
+    tela6.geometry('390x200')
+    tela6.title('Criar Conta')
+
+    texto = Label(tela6, font = fonte_padrao, text = '\nPreencha os dados abaixo')
+    texto.grid(row = 3, column = 1)
+
+    texto2 = Label(tela6, font = fonte_padrao, text = 'para criar uma conta')
+    texto2.grid(row = 5, column = 1)
+
+    nome = Label(tela6, text = '  Nome:', font = fonte_padrao)
+    nome.grid(row = 7, column = 0)
+
+    global caixa2_nome
+    caixa2_nome = Entry(tela6, width = 25, font = fonte_padrao)
+    caixa2_nome.grid(row = 7, column = 1)
+        
+    senha = Label(tela6, text = '  Senha:', font = fonte_padrao)
+    senha.grid(row = 8, column = 0)
+    
+    global caixa2_senha
+    caixa2_senha = Entry(tela6, font = fonte_padrao, width = 25, show = '*')
+    caixa2_senha.grid(row = 8, column = 1)
+
+    finalizado = Button(tela6, text = 'Realizar Cadastro', font = fonte_padrao, command = Registro)
+    finalizado.place(x = 120, y = 145)
+
+def Registro():
+    lista_id.append(caixa2_nome.get())
+    lista_senha.append(caixa2_senha.get())
+    messagebox.showinfo(message = 'Cadastro realizado com sucesso!')
+    tela6.destroy()
+
 #criando tela_inicial
-def janela1():
+def Janela1():
     global tela1
     tela1 = Tk()
     tela1.geometry('390x200')
@@ -244,14 +280,18 @@ def janela1():
     global caixa_senha
     caixa_senha = Entry(tela1, font = fonte_padrao, width = 25, show = '*')
     caixa_senha.grid(row = 8, column = 1)
+
     #botão_entrar
     botao = Button(tela1, text = 'Entrar', font = fonte_padrao, command = Verificar_usuario)
-    botao.grid(row = 10, column = 1)
+    botao.place(x = 220, y = 150)
     tela1.bind('<Return>', botao_press)
+
+    #botão novo usuário
+    conta_nova = Button(tela1, text = 'Criar Conta', font = fonte_padrao, command = Novo_user)
+    conta_nova.place(x = 100, y = 150)
     tela1.mainloop()
 
 def Verificar_usuario():
-    
     if caixa_nome.get() in lista_id and caixa_senha.get() in lista_senha:
         messagebox.showinfo(title = 'Login Aprovado!', message = 'Seja bem-vindo!')
         tela1.destroy()
@@ -262,4 +302,4 @@ def Verificar_usuario():
 def botao_press(enter):
     Verificar_usuario()
 
-janela1()
+Janela1()
